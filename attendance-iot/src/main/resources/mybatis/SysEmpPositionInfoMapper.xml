@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xio.attendance.dao.SysEmpPositionInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.xio.attendance.entity.SysEmpPositionInfo" >
+    <id column="id" property="id" jdbcType="CHAR" />
+    <result column="emp_id" property="empId" jdbcType="CHAR" />
+    <result column="stat_id" property="statId" jdbcType="CHAR" />
+    <result column="prj_id" property="prjId" jdbcType="CHAR" />
+    <result column="record_timestamp" property="recordTimestamp" jdbcType="DATE" />
+    <result column="record_timestamp_start" property="recordTimestampStart" jdbcType="TIMESTAMP" />
+    <result column="record_timestamp_end" property="recordTimestampEnd" jdbcType="TIMESTAMP" />
+    <result column="depict _type" property="depictType" jdbcType="CHAR" />
+    <result column="attendance_type" property="attendanceType" jdbcType="CHAR" />
+    <result column="handle_type" property="handleType" jdbcType="CHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="create_id" property="createId" jdbcType="CHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="update_id" property="updateId" jdbcType="CHAR" />
+    <result column="longitude" property="longitude" jdbcType="VARCHAR" />
+    <result column="latitude" property="latitude" jdbcType="VARCHAR" />
+  </resultMap>
+  <!--获得所有异常数据-->
+  <select id="selectAttendance" resultMap="BaseResultMap">
+      select * from  sys_emp_position_info where  stat_id =  #{prjId,jdbcType=VARCHAR}
+  </select>
+  <!--分页总数-->
+  <select id="countEmp" resultType="int">
+      select count(*) from  sys_emp_position_info
+  </select>
+  <!--记录异常-->
+  <update id="recordAttendance">
+      update sys_emp_position_info set handle_type = '1' where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <!--不记录异常-->
+  <update id="noRemarkAttendance">
+      update sys_emp_position_info set remark = #{remark,jdbcType=VARCHAR},handle_type = '2' where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
