@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xio.attendance.dao.EmpCheckingMapper" >
+  <resultMap id="MResultMap" type="com.xio.attendance.entity.MtLineEmpRel" >
+    <id column="id" property="id" jdbcType="CHAR" />
+    <result column="line_id" property="lineId" jdbcType="CHAR" />
+    <result column="emp_id" property="empId" jdbcType="CHAR" />
+    <result column="post_type" property="postType" jdbcType="CHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="last_update_timestamp" property="lastUpdateTimestamp" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+</mapper>

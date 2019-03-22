@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xio.attendance.dao.EmpCheckingMapper" >
+  <resultMap id="SDResultMap" type="com.xio.attendance.entity.SysDictionary" >
+    <id column="id" property="id" jdbcType="CHAR" />
+    <result column="dict_name" property="dictName" jdbcType="VARCHAR" />
+    <result column="dict_code" property="dictCode" jdbcType="VARCHAR" />
+    <result column="dict_type" property="dictType" jdbcType="VARCHAR" />
+    <result column="p_dict_id" property="pDictId" jdbcType="VARCHAR" />
+    <result column="enable_flag" property="enableFlag" jdbcType="CHAR" />
+  </resultMap>
+
+</mapper>

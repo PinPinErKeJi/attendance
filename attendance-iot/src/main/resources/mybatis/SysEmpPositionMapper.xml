@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xio.attendance.dao.EmpCheckingMapper" >
+  <resultMap id="BaseResultMap1" type="com.xio.attendance.entity.SysEmpPosition" >
+    <id column="id" property="id" jdbcType="CHAR" />
+    <result column="emp_id" property="empId" jdbcType="VARCHAR" />
+    <result column="longitude" property="longitude" jdbcType="VARCHAR" />
+    <result column="latitude" property="latitude" jdbcType="VARCHAR" />
+    <result column="record_timestamp" property="recordTimestamp" jdbcType="TIMESTAMP" />
+    <result column="post_type" property="postType" jdbcType="CHAR" />
+    <result column="source_id" property="sourceId" jdbcType="VARCHAR" />
+
+    <association property="sysDictionary" javaType="SysDictionary">
+      <id column="id" property="id" jdbcType="CHAR" />
+      <result column="dict_name" property="dictName" jdbcType="VARCHAR" />
+      <result column="dict_code" property="dictCode" jdbcType="VARCHAR" />
+      <result column="dict_type" property="dictType" jdbcType="VARCHAR" />
+      <result column="p_dict_id" property="pDictId" jdbcType="VARCHAR" />
+      <result column="enable_flag" property="enableFlag" jdbcType="CHAR" />
+    </association>
+  </resultMap>
+
+  <!--下班打卡时间-->
+  <select id="selectClosingTime" resultMap="BaseResultMap1">
+    select s_e_p.emp_id,s_e_p.longitude,s_e_p.latitude,s_e_p.record_timestamp from sys_emp_position  s_e_p
+    INNER JOIN sys_dictionary  s_d on s_e_p.post_type = s_d.dict_code
+    where s_d.dict_code = '2' and  dict_type = 'post_type';
+  </select>
+  <!--得到上班打卡时间-->
+  <select id="selectOfficeTime" resultMap="BaseResultMap1">
+    select s_e_p.emp_id,s_e_p.longitude,s_e_p.latitude,s_e_p.record_timestamp  from sys_emp_position  s_e_p  INNER JOIN sys_dictionary  s_d on s_e_p.post_type = s_d.dict_code
+    where s_d.dict_code = '1' and  dict_type = 'post_type';
+  </select>
+</mapper>

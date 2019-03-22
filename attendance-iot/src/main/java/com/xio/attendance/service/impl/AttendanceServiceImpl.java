@@ -8,6 +8,7 @@ import com.xio.attendance.service.AttendanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -41,5 +42,11 @@ public class AttendanceServiceImpl implements AttendanceService {
     public Boolean noRemarkAttendance(String id, String remark) {
         return sysEmpPositionInfoMapper.noRemarkAttendance(id,remark);
     }
+        //异常考勤数据统计
+    @Override
+    public int insert(String uuid, String bempid, String bstatid,Date time,String mDownStatus, String COA, String NR, String uuidUtilUUID, String utilUUID,String longitude,String latitude) {
+        return sysEmpPositionInfoMapper.insert( uuid,  bempid,  bstatid,time,mDownStatus,  COA,  NR,  uuidUtilUUID,  utilUUID,longitude,latitude);
+    }
+
 
 }

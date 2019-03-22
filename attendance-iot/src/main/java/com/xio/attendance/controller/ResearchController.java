@@ -1,12 +1,13 @@
 package com.xio.attendance.controller;
 
 import com.xio.attendance.entity.SysEmpPositionInfo;
+import com.xio.attendance.exception.BaseResp;
+import com.xio.attendance.intercept.ResultStatus;
 import com.xio.attendance.service.AttendanceService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -16,21 +17,22 @@ import java.util.List;
  * @create 2019-03-18 20:58
  * @desc Wangguipin
  **/
-
-
+@ControllerAdvice(annotations = {RestController.class})
 @RestController
 @RequestMapping("api/attendance/data")
 public class ResearchController {
 
     @Autowired
     private AttendanceService attendanceService;
-    //查询所以考勤数据
+    //查询所有考勤数据
+    @ExceptionHandler(value = Exception.class)
+
     @RequestMapping( value = "allSheet",method= RequestMethod.GET)
-    public Object allSheet(String statid ){
-        int currentPage =2;
-        int pageSize = 1;
+    public Object allSheet(String statid ,int currentPage, int pageSize){
+        System.out.println(statid);
         List<SysEmpPositionInfo> list=attendanceService.selectAttendance(statid,currentPage,pageSize);
         return list;
+
     }
 
     //记录异常功能

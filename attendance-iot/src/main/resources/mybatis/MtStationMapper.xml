@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xio.attendance.dao.EmpCheckingMapper" >
+  <resultMap id="MSResultMap" type="com.xio.attendance.entity.MtStation" >
+    <id column="id" property="id" jdbcType="CHAR" />
+    <result column="stat_name" property="statName" jdbcType="VARCHAR" />
+    <result column="stat_code" property="statCode" jdbcType="VARCHAR" />
+    <result column="comp_id" property="compId" jdbcType="CHAR" />
+    <result column="stat_phone" property="statPhone" jdbcType="VARCHAR" />
+    <result column="stat_fax" property="statFax" jdbcType="VARCHAR" />
+    <result column="establish_date" property="establishDate" jdbcType="DATE" />
+    <result column="stat_address" property="statAddress" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="enable_flag" property="enableFlag" jdbcType="CHAR" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_timestamp" property="createTimestamp" jdbcType="TIMESTAMP" />
+    <result column="last_update_user" property="lastUpdateUser" jdbcType="VARCHAR" />
+    <result column="last_update_timestamp" property="lastUpdateTimestamp" jdbcType="TIMESTAMP" />
+    <result column="last_update_remark" property="lastUpdateRemark" jdbcType="VARCHAR" />
+  </resultMap>
+
+</mapper>

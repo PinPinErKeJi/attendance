@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xio.attendance.dao.EmpCheckingMapper" >
+  <resultMap id="BaseResultMap" type="com.xio.attendance.entity.BaseEmployee" >
+    <id column="id" property="id" jdbcType="CHAR" />
+    <result column="emp_code" property="empCode" jdbcType="VARCHAR" />
+    <result column="emp_name" property="empName" jdbcType="VARCHAR" />
+    <result column="emp_sex" property="empSex" jdbcType="CHAR" />
+    <result column="comp_id" property="compId" jdbcType="CHAR" />
+    <result column="post_id" property="postId" jdbcType="CHAR" />
+    <result column="emp_level" property="empLevel" jdbcType="VARCHAR" />
+    <result column="emp_status" property="empStatus" jdbcType="CHAR" />
+    <result column="emp_native" property="empNative" jdbcType="VARCHAR" />
+    <result column="emp_number" property="empNumber" jdbcType="VARCHAR" />
+    <result column="emp_birthdate" property="empBirthdate" jdbcType="DATE" />
+    <result column="emp_education" property="empEducation" jdbcType="VARCHAR" />
+    <result column="emp_entrance_date" property="empEntranceDate" jdbcType="DATE" />
+    <result column="emp_phone_one" property="empPhoneOne" jdbcType="VARCHAR" />
+    <result column="emp_phone_two" property="empPhoneTwo" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="enable_flag" property="enableFlag" jdbcType="CHAR" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_timestamp" property="createTimestamp" jdbcType="TIMESTAMP" />
+    <result column="last_update_user" property="lastUpdateUser" jdbcType="VARCHAR" />
+    <result column="last_update_timestamp" property="lastUpdateTimestamp" jdbcType="TIMESTAMP" />
+    <result column="last_update_remark" property="lastUpdateRemark" jdbcType="VARCHAR" />
+    <result column="emp_photo_url" property="empPhotoUrl" jdbcType="VARCHAR" />
+    <result column="sign_url" property="signUrl" jdbcType="VARCHAR" />
+    <result column="internship_finish_date" property="internshipFinishDate" jdbcType="DATE" />
+    <result column="member_date" property="memberDate" jdbcType="DATE" />
+    <result column="dimission_date" property="dimissionDate" jdbcType="DATE" />
+    <result column="entry_date" property="entryDate" jdbcType="DATE" />
+    <result column="transfer_date" property="transferDate" jdbcType="DATE" />
+    <result column="transfer_remark" property="transferRemark" jdbcType="VARCHAR" />
+
+    <association property="mtLineEmpRel" javaType="MtLineEmpRel">
+      <id column="id" property="id" jdbcType="CHAR" />
+      <result column="line_id" property="lineId" jdbcType="CHAR" />
+      <result column="emp_id" property="empId" jdbcType="CHAR" />
+      <result column="post_type" property="postType" jdbcType="CHAR" />
+      <result column="remark" property="remark" jdbcType="VARCHAR" />
+      <result column="last_update_timestamp" property="lastUpdateTimestamp" jdbcType="TIMESTAMP" />
+    </association>
+
+    <association property="mtWorkLine" javaType="MtWorkLine">
+      <id column="id" property="id" jdbcType="CHAR" />
+      <result column="line_name" property="lineName" jdbcType="VARCHAR" />
+      <result column="line_code" property="lineCode" jdbcType="VARCHAR" />
+      <result column="comp_id" property="compId" jdbcType="CHAR" />
+      <result column="stat_id" property="statId" jdbcType="CHAR" />
+      <result column="remark" property="remark" jdbcType="VARCHAR" />
+      <result column="enable_flag" property="enableFlag" jdbcType="CHAR" />
+      <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+      <result column="create_timestamp" property="createTimestamp" jdbcType="TIMESTAMP" />
+      <result column="last_update_user" property="lastUpdateUser" jdbcType="VARCHAR" />
+      <result column="last_update_timestamp" property="lastUpdateTimestamp" jdbcType="TIMESTAMP" />
+      <result column="last_update_remark" property="lastUpdateRemark" jdbcType="VARCHAR" />
+    </association>
+
+    <association property="mtStation" javaType="MtStation">
+      <id column="id" property="id" jdbcType="CHAR" />
+      <result column="stat_name" property="statName" jdbcType="VARCHAR" />
+      <result column="stat_code" property="statCode" jdbcType="VARCHAR" />
+      <result column="comp_id" property="compId" jdbcType="CHAR" />
+      <result column="stat_phone" property="statPhone" jdbcType="VARCHAR" />
+      <result column="stat_fax" property="statFax" jdbcType="VARCHAR" />
+      <result column="establish_date" property="establishDate" jdbcType="DATE" />
+      <result column="stat_address" property="statAddress" jdbcType="VARCHAR" />
+      <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="enable_flag" property="enableFlag" jdbcType="CHAR" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_timestamp" property="createTimestamp" jdbcType="TIMESTAMP" />
+    <result column="last_update_user" property="lastUpdateUser" jdbcType="VARCHAR" />
+    <result column="last_update_timestamp" property="lastUpdateTimestamp" jdbcType="TIMESTAMP" />
+    <result column="last_update_remark" property="lastUpdateRemark" jdbcType="VARCHAR" />
+  </association>
+
+  </resultMap>
+    <!--员工、服务站点-->
+  <select id="selectEmpStation" resultMap="BaseResultMap">
+     select b_e.id ,m_w_l.stat_id  from  base_employee b_e INNER JOIN   mt_line_emp_rel m_l_e_r  on  b_e.id = m_l_e_r.emp_id
+    INNER JOIN  mt_work_line m_w_l on m_l_e_r.line_id = m_w_l.id
+    INNER JOIN  mt_station m_s  on m_w_l.stat_id = m_s.id
+  </select>
+
+</mapper>
