@@ -251,7 +251,6 @@ public class RequestMap {
                 }
             }
         }
-
         return ip;
     }
 }

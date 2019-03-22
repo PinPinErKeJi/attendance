@@ -22,13 +22,9 @@ import java.util.List;
  * @create 2019-03-18 20:58
  * @desc Wangguipin
  **/
-/*
-@ControllerAdvice(annotations = {RestController.class})
+
 @RestController
 @RequestMapping("api/attendance/data")
-*/
-@Controller
-@RequestMapping("/api/attendance/data")
 public class ResearchController {
 
     private Log logger = LogFactory.getLog(ResearchController.class);
@@ -36,55 +32,54 @@ public class ResearchController {
     @Autowired
     private AttendanceService attendanceService;
     //查询所有考勤数据
-    //@ExceptionHandler(value = Exception.class)
-
-    /*
-    @RequestMapping( value = "allSheet",method= RequestMethod.GET)
-    public Object allSheet(String statid ,int currentPage, int pageSize){
-        System.out.println(statid);
-        List<SysEmpPositionInfo> list=attendanceService.selectAttendance(statid,currentPage,pageSize);
-        return list;
-
-    }
-    */
 
     @RequestMapping( value = "allSheet",method= RequestMethod.GET)
     @ResponseBody
     public Object allSheet(RequestMap requestMap){
-
         ResponseMap responseMap=new ResponseMap();
-
         try {
-            String statid=requestMap.getStringValue("statid","服务站id",true);
+            String statid=requestMap.getStringValue("statid","服务站id必填",true);
             int currentPage=requestMap.getIntegerValue("currentPage","当前页数",false);
             int pageSize=requestMap.getIntegerValue("pageSize","总条数",false);
 
             List<SysEmpPositionInfo> list= attendanceService.selectAttendance(statid,currentPage,pageSize);
-
             responseMap.put("list",list);
-
         } catch (Exception ex) {
-
             logger.error(ex);
-
             responseMap.returnError(ex);
         }
-
         return responseMap;
 
     }
 
     //记录异常功能
-    @RequestMapping(value = "record",method= RequestMethod.POST)
-    public boolean record(String id){
-        boolean trueAndFalse = attendanceService.recordAttendance(id);
-        return  trueAndFalse;
-    }
 
+    @RequestMapping(value = "record",method= RequestMethod.POST)
+    public Object record(RequestMap requestMap){
+        ResponseMap responseMap=new ResponseMap();
+        try {
+            String id = requestMap.getStringValue("id","记录id",true);
+            boolean trueAndFalse = attendanceService.recordAttendance(id);
+            responseMap.put("trueAndFalse",trueAndFalse);
+        }catch (Exception ex){
+            logger.error(ex);
+            responseMap.returnError(ex);
+        }
+     return responseMap;
+    }
     //不记录异常功能
-    @RequestMapping(value = "noRemark",method= RequestMethod.POST)
-    public boolean noRemark(String id,String remark){
-        boolean trueAndFalse = attendanceService.noRemarkAttendance(id,remark);
-        return  trueAndFalse;
+        @RequestMapping(value = "noRemark",method= RequestMethod.POST)
+        public Object noRemark(RequestMap requestMap){
+            ResponseMap responseMap=new ResponseMap();
+            try {
+                String id = requestMap.getStringValue("id","不记录id",true);
+                String remark = requestMap.getStringValue("remark","备注内容",true);
+                boolean trueAndFalse = attendanceService.noRemarkAttendance(id,remark);
+                responseMap.put("trueAndFalse",trueAndFalse);
+            }catch (Exception ex){
+                logger.error(ex);
+                responseMap.returnError(ex);
+            }
+        return  responseMap;
     }
 }
