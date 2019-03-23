@@ -37,9 +37,12 @@ public class SysEmpPositionInfo {
 
     private  String latitude;
 
+    private  String line_id;
+
+    private  BaseEmployee  baseEmployee;
     public SysEmpPositionInfo(){}
 
-    public SysEmpPositionInfo(String id, String empId, String statId, String prjId, Date recordTimestamp, Date recordTimestampStart, Date recordTimestampEnd, String depictType, String attendanceType, String handleType, String remark, Date createDate, String createId, Date updateDate, String updateId, String longitude, String latitude) {
+    public SysEmpPositionInfo(String id, String empId, String statId, String prjId, Date recordTimestamp, Date recordTimestampStart, Date recordTimestampEnd, String depictType, String attendanceType, String handleType, String remark, Date createDate, String createId, Date updateDate, String updateId, String longitude, String latitude, String line_id, BaseEmployee baseEmployee) {
         this.id = id;
         this.empId = empId;
         this.statId = statId;
@@ -57,6 +60,8 @@ public class SysEmpPositionInfo {
         this.updateId = updateId;
         this.longitude = longitude;
         this.latitude = latitude;
+        this.line_id = line_id;
+        this.baseEmployee = baseEmployee;
     }
 
     public String getId() {
@@ -195,6 +200,22 @@ public class SysEmpPositionInfo {
         this.latitude = latitude;
     }
 
+    public String getLine_id() {
+        return line_id;
+    }
+
+    public void setLine_id(String line_id) {
+        this.line_id = line_id;
+    }
+
+    public BaseEmployee getBaseEmployee() {
+        return baseEmployee;
+    }
+
+    public void setBaseEmployee(BaseEmployee baseEmployee) {
+        this.baseEmployee = baseEmployee;
+    }
+
     @Override
     public String toString() {
         return "SysEmpPositionInfo{" +
@@ -215,6 +236,8 @@ public class SysEmpPositionInfo {
                 ", updateId='" + updateId + '\'' +
                 ", longitude='" + longitude + '\'' +
                 ", latitude='" + latitude + '\'' +
+                ", line_id='" + line_id + '\'' +
+                ", baseEmployee=" + baseEmployee +
                 '}';
     }
 }

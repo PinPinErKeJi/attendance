@@ -19,10 +19,37 @@
     <result column="update_id" property="updateId" jdbcType="CHAR" />
     <result column="longitude" property="longitude" jdbcType="VARCHAR" />
     <result column="latitude" property="latitude" jdbcType="VARCHAR" />
+    <result column="line_id" property="lineid" jdbcType="CHAR" />
+
+    <association property="baseEmployee" javaType="BaseEmployee">
+      <result column="emp_name" property="empName" jdbcType="VARCHAR" />
+    </association>
+
   </resultMap>
   <!--获得所有异常数据-->
   <select id="selectAttendance" resultMap="BaseResultMap">
-      select * from  sys_emp_position_info where  stat_id = #{prjId,jdbcType=VARCHAR}
+    --  select * from  sys_emp_position_info where  stat_id = #{prjId,jdbcType=VARCHAR}
+    	select
+		s_e_p_i.*,
+		b_e.emp_name,
+	CASE s_e_p_i.depict_type
+			WHEN '0' THEN '上午迟到'
+			WHEN '2' THEN '上午早退'
+			WHEN '3' THEN '下午迟到'
+			WHEN '4' THEN '下午早退'
+			WHEN '5' THEN '未打卡'
+		  else '错误信息' end as depict,
+	CASE s_e_p_i.depict_type
+			WHEN '0' THEN '上班打卡异常'
+			WHEN '1' THEN '下班打卡异常'
+			WHEN '2' THEN '项目考勤异常'
+			WHEN '3' THEN '缺勤'
+	      else '错误' end as attendance
+	from
+            sys_emp_position_info s_e_p_i
+            LEFT join base_employee b_e on b_e.id=s_e_p_i.emp_id
+    where  s_e_p_i.stat_id = #{prjId,jdbcType=VARCHAR}
+
   </select>
   <!--分页总数-->
   <select id="countEmp" resultType="int">
