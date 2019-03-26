@@ -2,17 +2,15 @@ package com.xio.attendance.controller;
 
 import com.xio.attendance.dto.RequestMap;
 import com.xio.attendance.dto.ResponseMap;
-import com.xio.attendance.entity.SysEmpPositionInfo;
-import com.xio.attendance.exception.BaseResp;
-import com.xio.attendance.intercept.ResultStatus;
+import com.xio.attendance.entity.MtEmpPositionInfo;
 import com.xio.attendance.service.AttendanceService;
+import com.xio.attendance.service.MtAppealService;
+import com.xio.attendance.utils.UUIDUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -31,18 +29,22 @@ public class ResearchController {
 
     @Autowired
     private AttendanceService attendanceService;
-    //查询所有考勤数据
+    @Autowired
+    private MtAppealService mtAppealService;
 
+    UUIDUtil uuidUtil = new UUIDUtil();
+    //查询所有考勤数据
     @RequestMapping( value = "allSheet",method= RequestMethod.GET)
-    @ResponseBody
     public Object allSheet(RequestMap requestMap){
         ResponseMap responseMap=new ResponseMap();
         try {
             String statid=requestMap.getStringValue("statid","服务站id必填",true);
             int currentPage=requestMap.getIntegerValue("currentPage","当前页数",false);
             int pageSize=requestMap.getIntegerValue("pageSize","总条数",false);
+            System.out.println(statid+currentPage+pageSize);
 
-            List<SysEmpPositionInfo> list= attendanceService.selectAttendance(statid,currentPage,pageSize);
+            List<MtEmpPositionInfo> list = attendanceService.selectAttendance(statid,currentPage,pageSize);
+            System.out.println(list);
             responseMap.put("list",list);
         } catch (Exception ex) {
             logger.error(ex);
@@ -82,4 +84,28 @@ public class ResearchController {
             }
         return  responseMap;
     }
+
+    //员工申诉
+    @RequestMapping(value = "empAppeal",method= RequestMethod.POST)
+    public Object empAppeal(RequestMap requestMap){
+
+        ResponseMap responseMap=new ResponseMap();
+        try {
+            String mAuuid = uuidUtil.getUUID();
+            String position_info_id = requestMap.getStringValue("position_info_id","考勤异常主id",true);
+            String content = requestMap.getStringValue("content","申诉内容",true);
+            int sequence = 0;
+            sequence = sequence + 1;
+
+            int AppealTrueAndFalse = mtAppealService.addAppeal(mAuuid,position_info_id,sequence,content);
+            responseMap.put("AppealTrueAndFalse",AppealTrueAndFalse);
+
+        }catch (Exception ex){
+            logger.error(ex);
+            responseMap.returnError(ex);
+        }
+        return  responseMap;
+    }
+
+
 }

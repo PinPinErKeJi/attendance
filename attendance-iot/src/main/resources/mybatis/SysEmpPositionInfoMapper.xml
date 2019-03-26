@@ -1,74 +1,84 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xio.attendance.dao.SysEmpPositionInfoMapper" >
-  <resultMap id="BaseResultMap" type="com.xio.attendance.entity.SysEmpPositionInfo" >
-    <id column="id" property="id" jdbcType="CHAR" />
-    <result column="emp_id" property="empId" jdbcType="CHAR" />
-    <result column="stat_id" property="statId" jdbcType="CHAR" />
-    <result column="prj_id" property="prjId" jdbcType="CHAR" />
-    <result column="record_timestamp" property="recordTimestamp" jdbcType="DATE" />
-    <result column="record_timestamp_start" property="recordTimestampStart" jdbcType="TIMESTAMP" />
-    <result column="record_timestamp_end" property="recordTimestampEnd" jdbcType="TIMESTAMP" />
-    <result column="depict _type" property="depictType" jdbcType="CHAR" />
-    <result column="attendance_type" property="attendanceType" jdbcType="CHAR" />
-    <result column="handle_type" property="handleType" jdbcType="CHAR" />
-    <result column="remark" property="remark" jdbcType="VARCHAR" />
-    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
-    <result column="create_id" property="createId" jdbcType="CHAR" />
-    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
-    <result column="update_id" property="updateId" jdbcType="CHAR" />
-    <result column="longitude" property="longitude" jdbcType="VARCHAR" />
-    <result column="latitude" property="latitude" jdbcType="VARCHAR" />
-    <result column="line_id" property="lineid" jdbcType="CHAR" />
+  <resultMap id="BaseResultMap" type="com.xio.attendance.entity.MtEmpPositionInfo" >
 
-    <association property="baseEmployee" javaType="BaseEmployee">
+      <id column="id" property="id" jdbcType="CHAR" />
+      <result column="emp_id" property="empId" jdbcType="CHAR" />
+      <result column="stat_id" property="statId" jdbcType="CHAR" />
+      <result column="prj_id" property="prjId" jdbcType="CHAR" />
+      <result column="record_timestamp" property="recordTimestamp" jdbcType="DATE" />
+      <result column="record_timestamp_start" property="recordTimestampStart" jdbcType="TIMESTAMP" />
+      <result column="record_timestamp_end" property="recordTimestampEnd" jdbcType="TIMESTAMP" />
+      <result column="depict_type" property="depictType" jdbcType="CHAR" />
+      <result column="attendance_type" property="attendanceType" jdbcType="CHAR" />
+      <result column="handle_type" property="handleType" jdbcType="CHAR" />
+      <result column="remark" property="remark" jdbcType="VARCHAR" />
+      <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+      <result column="create_id" property="createId" jdbcType="CHAR" />
+      <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+      <result column="update_id" property="updateId" jdbcType="CHAR" />
+      <result column="longitude" property="longitude" jdbcType="VARCHAR" />
+      <result column="latitude" property="latitude" jdbcType="VARCHAR" />
+      <result column="line_id" property="lineId" jdbcType="CHAR" />
+      <result column="depict" property="depict" jdbcType="VARCHAR" />
+      <result column="attendance" property="attendance" jdbcType="VARCHAR" />
+
+      <association property="baseEmployee" javaType="BaseEmployee">
       <result column="emp_name" property="empName" jdbcType="VARCHAR" />
-    </association>
+      </association>
+
 
   </resultMap>
   <!--获得所有异常数据-->
   <select id="selectAttendance" resultMap="BaseResultMap">
-    --  select * from  sys_emp_position_info where  stat_id = #{prjId,jdbcType=VARCHAR}
-    	select
-		s_e_p_i.*,
-		b_e.emp_name,
-	CASE s_e_p_i.depict_type
-			WHEN '0' THEN '上午迟到'
-			WHEN '2' THEN '上午早退'
-			WHEN '3' THEN '下午迟到'
-			WHEN '4' THEN '下午早退'
-			WHEN '5' THEN '未打卡'
-		  else '错误信息' end as depict,
-	CASE s_e_p_i.depict_type
-			WHEN '0' THEN '上班打卡异常'
-			WHEN '1' THEN '下班打卡异常'
-			WHEN '2' THEN '项目考勤异常'
-			WHEN '3' THEN '缺勤'
-	      else '错误' end as attendance
-	from
-            sys_emp_position_info s_e_p_i
-            LEFT join base_employee b_e on b_e.id=s_e_p_i.emp_id
-    where  s_e_p_i.stat_id = #{prjId,jdbcType=VARCHAR}
-
+ 	select
+ 		m_e_p_i.id,
+ 		m_e_p_i.longitude,
+ 		m_e_p_i.latitude,
+ 		m_e_p_i.record_timestamp_start,
+ 		m_e_p_i.record_timestamp_end,
+ 		m_e_p_i.record_timestamp,
+ 		b_e.emp_name,
+ 	CASE m_e_p_i.depict_type
+ 			WHEN '0' THEN '上午迟到'
+ 			WHEN '2' THEN '上午早退'
+ 			WHEN '3' THEN '下午迟到'
+ 			WHEN '4' THEN '下午早退'
+ 			WHEN '5' THEN '未打卡'
+ 		  else '错误信息' end as depict,
+ 	CASE m_e_p_i.depict_type
+ 			WHEN '0' THEN '上班打卡异常'
+ 			WHEN '1' THEN '下班打卡异常'
+ 			WHEN '2' THEN '项目考勤异常'
+ 			WHEN '3' THEN '缺勤'
+ 	    else '错误' end as attendance
+ 	from
+ 	mt_emp_position_info m_e_p_i
+ 	LEFT join base_employee b_e on b_e.id=m_e_p_i.emp_id
+    where  m_e_p_i.stat_id = #{prjId,jdbcType=VARCHAR}
   </select>
   <!--分页总数-->
   <select id="countEmp" resultType="int">
-      select count(*) from  sys_emp_position_info
+      select count(*) from  mt_emp_position_info
   </select>
   <!--记录异常-->
   <update id="recordAttendance">
-      update sys_emp_position_info set handle_type = '1' where id = #{id,jdbcType=VARCHAR}
+      update mt_emp_position_info set handle_type = '1' where id = #{id,jdbcType=VARCHAR}
   </update>
   <!--不记录异常-->
   <update id="noRemarkAttendance">
-      update sys_emp_position_info set remark = #{remark,jdbcType=VARCHAR},handle_type = '2' where id = #{id,jdbcType=VARCHAR}
+      update mt_emp_position_info set remark = #{remark,jdbcType=VARCHAR},handle_type = '2' where id = #{id,jdbcType=VARCHAR}
   </update>
 
   <insert id="insert">
-    insert into sys_emp_position_info VALUES(#{id,jdbcType=VARCHAR},#{empId,jdbcType=VARCHAR},
+    insert into mt_emp_position_info VALUES(#{id,jdbcType=VARCHAR},#{empId,jdbcType=VARCHAR},
     #{statId,jdbcType=VARCHAR},null, #{recordTimestamp,jdbcType=DATE},null ,null,
     #{depictType,jdbcType=CHAR},#{attendanceType,jdbcType=CHAR},#{handleType,jdbcType=CHAR},null,
     LOCALTIMESTAMP,#{createId,jdbcType=CHAR},LOCALTIMESTAMP,#{updateId,jdbcType=CHAR},
     #{longitude,jdbcType=VARCHAR},#{latitude,jdbcType=VARCHAR})
   </insert>
+
+
+
 </mapper>

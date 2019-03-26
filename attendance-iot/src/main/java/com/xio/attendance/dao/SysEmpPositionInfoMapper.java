@@ -3,14 +3,14 @@ package com.xio.attendance.dao;
 import java.util.Date;
 import java.util.List;
 
-import com.xio.attendance.entity.SysEmpPositionInfo;
+import com.xio.attendance.entity.MtEmpPositionInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface SysEmpPositionInfoMapper {
      //查询所有考勤数据
-     List<SysEmpPositionInfo> selectAttendance(@Param("prjId") String statid);
+     List<MtEmpPositionInfo> selectAttendance(@Param("prjId") String statid);
      //查询总条数
      int countEmp();
      //打卡异常记录
@@ -24,4 +24,5 @@ public interface SysEmpPositionInfoMapper {
                 @Param("attendanceType") String COA, @Param("handleType") String NR,
                 @Param("createId") String uuidUtilUUID, @Param("updateId") String utilUUID,
                 @Param("longitude") String longitude,@Param("latitude") String latitude);
+
 }

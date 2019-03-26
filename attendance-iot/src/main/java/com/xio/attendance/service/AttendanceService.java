@@ -1,7 +1,6 @@
 package com.xio.attendance.service;
 
-import com.xio.attendance.entity.SysEmpPositionInfo;
-import org.apache.ibatis.annotations.Param;
+import com.xio.attendance.entity.MtEmpPositionInfo;
 
 import java.util.Date;
 import java.util.List;
@@ -14,7 +13,7 @@ import java.util.List;
  * @desc WangGuipin
  **/
 public interface AttendanceService {
-    List<SysEmpPositionInfo> selectAttendance(String statid, int currentPage,int pageSize);
+    List<MtEmpPositionInfo> selectAttendance(String statid, int currentPage, int pageSize);
     //异常信息记录
     Boolean recordAttendance(String id);
     //打卡异常不记录
@@ -22,4 +21,5 @@ public interface AttendanceService {
 
     //考勤异常记录
     int  insert(String uuid, String bempid, String bstatid,Date time,String mDownStatus, String COA, String NR, String uuidUtilUUID, String utilUUID,String longitude,String latitude);
+
 }

@@ -2,11 +2,8 @@ package com.xio.attendance.dao;
 
 import com.xio.attendance.entity.BaseEmployee;
 import com.xio.attendance.entity.SysEmpPosition;
-import com.xio.attendance.entity.SysEmpPositionInfo;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
-import java.util.Date;
 import java.util.List;
 
 /**

@@ -20,5 +20,4 @@ public interface EmpCheckingService {
     List<SysEmpPosition> selectClosingTime();
     //得到上班打卡时间office
     List<SysEmpPosition> selectOfficeTime();
-
 }

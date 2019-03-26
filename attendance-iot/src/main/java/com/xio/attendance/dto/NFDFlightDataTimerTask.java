@@ -35,15 +35,16 @@ public class NFDFlightDataTimerTask extends TimerTask {
     private static final  String afternoon = "18:00:00:00";
 
     //状态码
-    private static final String mLateStatus = "0"; //上午迟到
-    private static final String mDownStatus = "1"; //上午早退
+    private static final String mLateStatus = "0";  //上午迟到
+    private static final String mDownStatus = "1";  //上午早退
     private static final String AfLateStatus = "2"; //下午迟到
     private static final String AfDownStatus = "3"; //下午早退
-    private static final String NotClockIn ="4"; //未打卡
+    private static final String NotClockIn ="4";    //未打卡
 
-    private static final String COA = "1"; //下班打卡异常
-    private static final String ACW = "0"; //上班打卡异常
-    private static final String NR = "0";  //未记录
+    private static final String COA = "1";  //下班打卡异常
+    private static final String ACW = "0";  //上班打卡异常
+    private static final String AD ="3";    //缺勤
+    private static final String NR = "0";   //未记录
 
     @Override
     public void run() {
@@ -73,8 +74,9 @@ public class NFDFlightDataTimerTask extends TimerTask {
 
                 String Bempid  = baseEmployee.getId();
                 String Bstatid = baseEmployee.getMtWorkLine().getStatId();
-                System.out.println("我是员工id："+  Bempid);
-                System.out.println("我是服务站工id："+  Bstatid);
+
+                log.info("我是员工id："+ Bempid);
+                log.info("我是服务站工id："+  Bstatid);
 
                 System.out.println("================下班打卡时间==========================");
                 //下班打卡时间
@@ -84,6 +86,8 @@ public class NFDFlightDataTimerTask extends TimerTask {
                     String Sempid =sysEmpPosition.getEmpId();
                     Date Time = sysEmpPosition.getRecordTimestamp();
 
+                    log.info("打卡员工id"+Sempid);
+                    log.info("下班打卡时间"+Time);
                     //坐标
                     String longitude = sysEmpPosition.getLongitude();
                     String latitude = sysEmpPosition.getLatitude();
@@ -96,21 +100,20 @@ public class NFDFlightDataTimerTask extends TimerTask {
 
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");//可以方便地修改日期格式
                     String executiontime =  dateFormat.format(new Date());
-                    System.out.println("参考时间"+ executiontime);
-                    System.out.println("时间:"+recordTime);
-                    System.out.println("打卡员工id:"+Sempid);
+
+                    log.info("打卡员工id"+Sempid);
+                    log.info("下班打卡时间"+recordTime);
 
                     if(Bempid.equals(Sempid) && recordTime.before(noonTime)){
                         //说明此员工上午早退
                         attendanceService.insert(uuidUtil.getUUID(),Bempid,Bstatid,statisticsTieme,mDownStatus,COA,NR,uuidUtil.getUUID(),uuidUtil.getUUID(),longitude,latitude);
-                        System.out.println("说明此员工上午早退");
-
+                       log.info("说明此员工上午早退");
                     }else if(Bempid.equals(Sempid) &&  recordTime.after(startAfternoonTime) && recordTime.before(afternoonTime)){
                         //说明此员工下午早退
-                        System.out.println("说明此员工下午早退");
                         attendanceService.insert(uuidUtil.getUUID(),Bempid,Bstatid,statisticsTieme,AfDownStatus,COA,NR,uuidUtil.getUUID(),uuidUtil.getUUID(),longitude,latitude);
+                        log.info("说明此员工下午早退");
                     }else{
-                        attendanceService.insert(uuidUtil.getUUID(),Bempid,Bstatid,statisticsTieme,AfDownStatus,NotClockIn,NR,uuidUtil.getUUID(),uuidUtil.getUUID(),longitude,latitude);
+                        attendanceService.insert(uuidUtil.getUUID(),Bempid,Bstatid,statisticsTieme,NotClockIn,AD,NR,uuidUtil.getUUID(),uuidUtil.getUUID(),longitude,latitude);
                     }
                 }
                 System.out.println("================上班打卡时间==========================");
@@ -132,18 +135,19 @@ public class NFDFlightDataTimerTask extends TimerTask {
 
                     if(Bempid.equals(oemdid) && recordTime.after(morningTime)){
                         //此员工上午迟到
-                        System.out.println("此员工上午迟到");
                         attendanceService.insert(uuidUtil.getUUID(),Bempid,Bstatid,statisticsTieme,mLateStatus,ACW,NR,uuidUtil.getUUID(),uuidUtil.getUUID(),longitude,latitude);
+                        log.info("此员工上午迟到");
                     }else if(Bempid.equals(oemdid) && recordTime.after(startAfternoonTime)){
                         //此员工下午迟到
                         attendanceService.insert(uuidUtil.getUUID(),Bempid,Bstatid,statisticsTieme,AfLateStatus,ACW,NR,uuidUtil.getUUID(),uuidUtil.getUUID(),longitude,latitude);
-                        System.out.println("此员工下午迟到");
+                        log.info("此员工下午迟到");
                     }else{
-                        attendanceService.insert(uuidUtil.getUUID(),Bempid,Bstatid,statisticsTieme,AfLateStatus,NotClockIn,NR,uuidUtil.getUUID(),uuidUtil.getUUID(),longitude,latitude);
+                        attendanceService.insert(uuidUtil.getUUID(),Bempid,Bstatid,statisticsTieme,NotClockIn,AD,NR,uuidUtil.getUUID(),uuidUtil.getUUID(),longitude,latitude);
                     }
                 }
             }
         } catch (ParseException e) {
+
             e.printStackTrace();
         }
     }
