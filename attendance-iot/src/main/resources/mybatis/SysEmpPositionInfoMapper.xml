@@ -23,6 +23,12 @@
       <result column="line_id" property="lineId" jdbcType="CHAR" />
       <result column="depict" property="depict" jdbcType="VARCHAR" />
       <result column="attendance" property="attendance" jdbcType="VARCHAR" />
+      <result column="audit_status" property="auditStatus" jdbcType="CHAR" />
+      <result column="fist_content" property="fistContent" jdbcType="VARCHAR" />
+      <result column="fist_createtime" property="fistCreatetime" jdbcType="TIMESTAMP" />
+      <result column="second_content" property="secondContent" jdbcType="VARCHAR" />
+      <result column="second_createtime" property="secondCreatetime" jdbcType="TIMESTAMP" />
+      <result column="apply_type_id" property="applyTypeId" jdbcType="SMALLINT" />
 
       <association property="baseEmployee" javaType="BaseEmployee">
       <result column="emp_name" property="empName" jdbcType="VARCHAR" />
@@ -76,9 +82,21 @@
     #{statId,jdbcType=VARCHAR},null, #{recordTimestamp,jdbcType=DATE},null ,null,
     #{depictType,jdbcType=CHAR},#{attendanceType,jdbcType=CHAR},#{handleType,jdbcType=CHAR},null,
     LOCALTIMESTAMP,#{createId,jdbcType=CHAR},LOCALTIMESTAMP,#{updateId,jdbcType=CHAR},
-    #{longitude,jdbcType=VARCHAR},#{latitude,jdbcType=VARCHAR})
+    #{longitude,jdbcType=VARCHAR},#{latitude,jdbcType=VARCHAR}，null,0,null,null,null,null,null)
   </insert>
 
+    <select id="selectAudit" resultMap="BaseResultMap" >
+    select * from mt_emp_position_info where emp_id = #{empId,jdbcType=VARCHAR} and stat_id = #{statId,jdbcType=VARCHAR} and
+    audit_status in(#{toAudit,jdbcType=VARCHAR},#{auditStatus,jdbcType=VARCHAR},#{appealStatus,jdbcType=VARCHAR},#{lastInstanceStatus,jdbcType=VARCHAR},
+    #{passStatus,jdbcType=VARCHAR},#{noPassStatus,jdbcType=VARCHAR})
+    </select>
 
+    <update id="insertAppeal">
+        update mt_emp_position_info set fist_content = #{fistContent,jdbcType=VARCHAR} ,fist_createtime = LOCALTIMESTAMP where emp_id = #{empId,jdbcType=CHAR}
+    </update>
+
+    <update id="insertSecondAppeal">
+           update mt_emp_position_info set second_content = #{second_content,jdbcType=VARCHAR} ,second_createtime = LOCALTIMESTAMP where emp_id = #{emp_id,jdbcType=CHAR}
+    </update>
 
 </mapper>

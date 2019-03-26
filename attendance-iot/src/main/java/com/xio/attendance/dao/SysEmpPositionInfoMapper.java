@@ -24,5 +24,11 @@ public interface SysEmpPositionInfoMapper {
                 @Param("attendanceType") String COA, @Param("handleType") String NR,
                 @Param("createId") String uuidUtilUUID, @Param("updateId") String utilUUID,
                 @Param("longitude") String longitude,@Param("latitude") String latitude);
+     //获取异常审核相关数据
+     List<MtEmpPositionInfo> selectAudit(String id, @Param("statId") String statId, @Param("empId") String empId, @Param("toAudit") String toAudit, @Param("auditStatus") String auditStatus, @Param("appealStatus") String appealStatus, @Param("lastInstanceStatus") String lastInstanceStatus, @Param("passStatus") String passStatus, @Param("noPassStatus") String noPassStatus);
+     //员工申诉
+     int insertAppeal(@Param("empId") String emp_id,@Param("fistContent") String fist_content);
 
+     //员二次工申诉
+     int insertSecondAppeal(@Param("emp_id") String emp_id,@Param("second_content") String second_content);
 }

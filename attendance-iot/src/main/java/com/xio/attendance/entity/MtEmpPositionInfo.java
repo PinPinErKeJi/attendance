@@ -58,9 +58,9 @@ public class MtEmpPositionInfo {
 
     private String secondContent;
 
-    private String applyTypeId;
+    private Date secondCreatetime;
 
-    private String secondCreatetime;
+    private Short applyTypeId;
 
     private  BaseEmployee  baseEmployee;
 
@@ -93,7 +93,7 @@ public class MtEmpPositionInfo {
         this.baseEmployee = baseEmployee;
     }
 
-    public MtEmpPositionInfo(String id, String empId, String statId, String prjId, Date recordTimestamp, Date recordTimestampStart, Date recordTimestampEnd, String depictType, String attendanceType, String handleType, String remark, Date createDate, String createId, Date updateDate, String updateId, String longitude, String latitude, String lineId, String depict, String attendance, String auditStatus, String fistContent, Date fistCreatetime, String secondContent, String applyTypeId, String secondCreatetime, BaseEmployee baseEmployee) {
+    public MtEmpPositionInfo(String id, String empId, String statId, String prjId, Date recordTimestamp, Date recordTimestampStart, Date recordTimestampEnd, String depictType, String attendanceType, String handleType, String remark, Date createDate, String createId, Date updateDate, String updateId, String longitude, String latitude, String lineId, String depict, String attendance, String auditStatus, String fistContent, Date fistCreatetime, String secondContent, Date secondCreatetime, Short applyTypeId, BaseEmployee baseEmployee) {
         this.id = id;
         this.empId = empId;
         this.statId = statId;
@@ -118,8 +118,8 @@ public class MtEmpPositionInfo {
         this.fistContent = fistContent;
         this.fistCreatetime = fistCreatetime;
         this.secondContent = secondContent;
-        this.applyTypeId = applyTypeId;
         this.secondCreatetime = secondCreatetime;
+        this.applyTypeId = applyTypeId;
         this.baseEmployee = baseEmployee;
     }
 
@@ -326,19 +326,19 @@ public class MtEmpPositionInfo {
         this.secondContent = secondContent;
     }
 
-    public String getSecondCreatetime() {
+    public Date getSecondCreatetime() {
         return secondCreatetime;
     }
 
-    public void setSecondCreatetime(String secondCreatetime) {
+    public void setSecondCreatetime(Date secondCreatetime) {
         this.secondCreatetime = secondCreatetime;
     }
 
-    public String getApplyTypeId() {
+    public Short getApplyTypeId() {
         return applyTypeId;
     }
 
-    public void setApplyTypeId(String applyTypeId) {
+    public void setApplyTypeId(Short applyTypeId) {
         this.applyTypeId = applyTypeId;
     }
 
@@ -369,8 +369,8 @@ public class MtEmpPositionInfo {
                 ", fistContent='" + fistContent + '\'' +
                 ", fistCreatetime=" + fistCreatetime +
                 ", secondContent='" + secondContent + '\'' +
-                ", applyTypeId='" + applyTypeId + '\'' +
-                ", secondCreatetime='" + secondCreatetime + '\'' +
+                ", secondCreatetime=" + secondCreatetime +
+                ", applyTypeId=" + applyTypeId +
                 ", baseEmployee=" + baseEmployee +
                 '}';
     }
